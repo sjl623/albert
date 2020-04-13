@@ -890,9 +890,13 @@ def accumulate_predictions_v1(result_dict, all_examples, all_features,
           # We could hypothetically create invalid predictions, e.g., predict
           # that the start of the span is in the question. We throw out all
           # invalid predictions.
-          if start_index - doc_offset >= len(feature.tok_start_to_orig_index):
+          if start_index >= len(feature.tokens):
             continue
-          if end_index - doc_offset >= len(feature.tok_end_to_orig_index):
+          if end_index >= len(feature.tokens):
+            continue
+          if start_index not in feature.token_to_orig_map:
+            continue
+          if end_index not in feature.token_to_orig_map:
             continue
           if not feature.token_is_max_context.get(start_index, False):
             continue
