@@ -453,13 +453,9 @@ def main(_):
       output_nbest_file = os.path.join(
           FLAGS.output_dir, "nbest_predictions.json")
 
-      result_dict = {}
-      squad_utils.accumulate_predictions_v1(
-          result_dict, eval_examples, eval_features,
-          all_results, FLAGS.n_best_size, FLAGS.max_answer_length)
-      predictions = squad_utils.write_predictions_v1(
-          result_dict, eval_examples, eval_features, all_results,
-          FLAGS.n_best_size, FLAGS.max_answer_length,
+      predictions = squad_utils.write_predictions(
+          eval_examples, eval_features, all_results,
+          FLAGS.n_best_size, FLAGS.max_answer_length,False,
           output_prediction_file, output_nbest_file)
 
       return squad_utils.evaluate_v1(
